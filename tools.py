@@ -8,6 +8,19 @@ def get_extension(path):
     return path.split('.')[-1]
 
 
+def rename(src, dest):
+
+    count = 0
+    dest_target = dest
+
+    while os.path.isfile(dest_target):
+        dest_target = '{}/{}'.format(os.path.dirname(dest_target),
+                                   add_suffix(os.path.basename(dest_target),count))
+        count += 1
+
+    os.rename(src, dest_target)
+
+
 def extract_attachement(path, target_path=None, rename=True):
 
     if target_path is None:
@@ -70,7 +83,7 @@ def path_to_treat(folder_path):
 
     file_list = [f for f in os.listdir(folder_path) if os.path.isfile('{}/{}'.format(folder_path, f))]
 
-    path_list = ['{}/{}'.format(folder_path, f) for f in file_list]
+    path_list = [os.path.normpath('{}/{}'.format(folder_path, f)) for f in file_list]
 
     msg_path = [p for p in path_list if get_extension(p).lower() == 'msg']
     zip_path = [p for p in path_list if get_extension(p).lower() == 'zip']
