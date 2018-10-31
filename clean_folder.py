@@ -22,19 +22,19 @@ while len(path_to_treat) > 0:
                 msg = MsgFile(p)
                 msg.save_attachments()
                 del msg
-                os.rename(p, '{}/{}/{}'.format(os.path.dirname(p),
+                tools.rename(p, '{}/{}/{}'.format(os.path.dirname(p),
                                                'processed',
                                                tools.add_suffix(os.path.basename(p), datetime.datetime.now().strftime("%Y%m%d%H%M%S"))))
             if ext == 'zip':
                 zip = ZipFile(p, timestamp=datetime.datetime.strptime(tools.get_ts_suffix(p), "%Y%m%d%H%M%S"))
                 zip.extract_all()
                 del zip
-                os.rename(p, '{}/{}/{}'.format(os.path.dirname(p),
+                tools.rename(p, '{}/{}/{}'.format(os.path.dirname(p),
                                                'processed',
                                                tools.add_suffix(os.path.basename(p), datetime.datetime.now().strftime("%Y%m%d%H%M%S"))))
         else:
             if tools.get_ts_suffix(p) is None:
-                os.rename(p, '{}/{}'.format(os.path.dirname(p),
+                tools.rename(p, '{}/{}'.format(os.path.dirname(p),
                                                tools.add_suffix(os.path.basename(p),
                                                                 datetime.datetime.fromtimestamp(os.path.getctime(p)).strftime('%Y%m%d%H%M%S'))))
 

@@ -22,14 +22,16 @@ class ZipFile():
             dest = os.path.dirname(self.path)
 
         temp_folder = '{}/{}'.format(dest, tools.timestamp_to_string(self.timestamp))
-        os.mkdir(temp_folder)
+
+        if not os.path.isdir(temp_folder):
+            os.mkdir(temp_folder)
 
         self.zip.extractall(temp_folder)
 
         if add_ts:
             file_list = os.listdir(temp_folder)
             for f in file_list:
-                os.rename('{}/{}'.format(temp_folder, f), '{}/{}'.format(dest, tools.add_suffix(f, tools.timestamp_to_string(self.timestamp))))
+                tools.rename('{}/{}'.format(temp_folder, f), '{}/{}'.format(dest, tools.add_suffix(f, tools.timestamp_to_string(self.timestamp))))
             os.rmdir(temp_folder)
 
 
